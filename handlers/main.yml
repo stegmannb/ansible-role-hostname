@@ -1,4 +1,0 @@
----
-- name: Reboot the machine.
-  reboot:
-  when: hostname_reboot
