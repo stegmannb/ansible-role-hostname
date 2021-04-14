@@ -1,0 +1,44 @@
+---
+- name: Set the hostname.
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname_short }}"
+    use: systemd
+  notify: Reboot the machine.
+
+- name: Remove the static IP from /etc/hosts.
+  lineinfile:
+    dest: /etc/hosts
+    regexp: >
+      ^{{ ansible_default_ipv4.address }}|replace('.', '\.').+$
+    state: absent
+  become: true
+  when: hostname_remove_staticip
+  notify: Reboot the machine.
+
+- name: Ensure hostname is in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: >
+      ^({{ ansible_default_ipv4.address }}|replace('.', '\.'))|(127\.0\.1\.1).+$
+    line: >
+      {{ ip }}
+      {{ fqdn }}
+      {% if hostname_domains %}
+      {% if hostname_domains is iterable and (hostname_domains is not string and hostname_domains is not mapping) %}
+      {% for domain in hostname_domains %}
+      {{ hostname }}.{{ domain }}
+      {% endfor %}
+      {% else %}
+      {{ hostname }}.{{ hostname_domains }}
+      {% endif %}
+      {% endif %}
+  become: true
+  vars:
+    ip: >-
+      {{ ansible_default_ipv4.address if hostname_ip|lower == 'auto' else hostname_ip }}
+    fqdn: >-
+      {{ inventory_hostname if hostname_fqdn|lower == 'inventory' else hostname_fqdn }}
+    hostname: >-
+      {{ (fqdn.split('.'))[0] }}
+  when: hostname_add_fqdn
+  notify: Reboot the machine.
