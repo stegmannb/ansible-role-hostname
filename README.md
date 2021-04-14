@@ -10,19 +10,24 @@ Any pre-requisites that may not be covered by Ansible itself or the role should 
 
 ## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- `hostname_inject_hosts_file` - Set to true to inject lines into the `/etc/hosts` file. Defaults to `true`.
+- `hostname_fqdn` - Set to the FQDN hostname for the host or `inventory`. If `inventory` this is set to `inventory_hostname`. Defaults to `inventory`.
+- `hostname_ip` - The IP address for the `/etc/hosts` file entry. Defaults to `127.0.1.1`.
+- `hostname_aliases` - Optional list of aliases for the host to inject in the `/etc/hosts` file.
 
 ## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 ## Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
+    - hosts: server1
       roles:
-         - { role: stegmannb.hostname, become: true }
+         - role: stegmannb.hostname
+           vars:
+            hostname_fqdn: server1.example.domain.com
 
 ## License
 

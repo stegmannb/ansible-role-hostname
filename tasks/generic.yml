@@ -7,8 +7,7 @@
 - name: Ensure hostname is in /etc/hosts
   blockinfile:
     dest: /etc/hosts
-    block: >
-      {{ ip }} {{ hostname }} {{ hostname_aliases | join(' ') }}
+    block: "{{ ip }} {{ hostname }} {{ hostname_aliases | join(' ') }}"
   vars:
     ip: >-
       {{ ansible_default_ipv4.address if hostname_ip|lower == 'auto' else hostname_ip }}
