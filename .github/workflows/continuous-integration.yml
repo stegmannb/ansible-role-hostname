@@ -23,34 +23,34 @@ jobs:
 
       - uses: pre-commit/action@v2.0.0
 
-  molecule:
-    needs:
-      - pre-commit
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        distro:
-          - ubuntu2004
-          - ubuntu1804
-          - fedora33
-          - fedora32
-          - debian10
-          - debian9
-    steps:
-      - name: Cancel an already running workflow.
-        uses: fkirc/skip-duplicate-actions@master
+  # molecule:
+  #   needs:
+  #     - pre-commit
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       distro:
+  #         - ubuntu2004
+  #         - ubuntu1804
+  #         - fedora33
+  #         - fedora32
+  #         - debian10
+  #         - debian9
+  #   steps:
+  #     - name: Cancel an already running workflow.
+  #       uses: fkirc/skip-duplicate-actions@master
 
-      - name: Check out the codebase.
-        uses: actions/checkout@v2
-        with:
-          path: "stegmannb.hostname"
+  #     - name: Check out the codebase.
+  #       uses: actions/checkout@v2
+  #       with:
+  #         path: "stegmannb.hostname"
 
-      - name: Molecule
-        uses: gofrolist/molecule-action@v2
-        with:
-          molecule_command: test
-          molecule_working_dir: "stegmannb.hostname"
-        env:
-          PY_COLORS: "1"
-          ANSIBLE_FORCE_COLOR: "1"
-          MOLECULE_DISTRO: ${{ matrix.distro }}
+  #     - name: Molecule
+  #       uses: gofrolist/molecule-action@v2
+  #       with:
+  #         molecule_command: test
+  #         molecule_working_dir: "stegmannb.hostname"
+  #       env:
+  #         PY_COLORS: "1"
+  #         ANSIBLE_FORCE_COLOR: "1"
+  #         MOLECULE_DISTRO: ${{ matrix.distro }}
