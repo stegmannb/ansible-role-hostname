@@ -1,5 +1,6 @@
 ---
 hostname_inject_hosts_file: true
+hostname_short: "inventory"
 hostname_fqdn: "inventory"
 hostname_ip: 127.0.1.1
 hostname_aliases: []

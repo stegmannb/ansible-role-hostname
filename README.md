@@ -11,6 +11,7 @@ Ansible 2.6 or higher
 ## Role Variables
 
 - `hostname_inject_hosts_file` - Set to true to inject lines into the `/etc/hosts` file. Defaults to `true`.
+- `hostname_short` - Set to the short hostname for the host or `inventory`. If `inventory` this is set to `inventory_hostname_short`. Defaults to `inventory`.
 - `hostname_fqdn` - Set to the FQDN hostname for the host or `inventory`. If `inventory` this is set to `inventory_hostname`. Defaults to `inventory`.
 - `hostname_ip` - The IP address for the `/etc/hosts` file entry. Defaults to `127.0.1.1`.
 - `hostname_aliases` - Optional list of aliases for the host to inject in the `/etc/hosts` file.

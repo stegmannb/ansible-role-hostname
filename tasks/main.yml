@@ -1,14 +1,24 @@
 ---
-- name: Check if the system uses systemd.
-  assert:
-    that: ansible_service_mgr == 'systemd'
-    fail_msg: "This role expects systemd."
-    quiet: true
+- name: Set facts.
+  set_fact:
+    ip: >-
+      {{ ansible_default_ipv4.address if hostname_ip|lower == 'auto' else hostname_ip }}
+    hostname_long: >-
+      {{ inventory_hostname if hostname_fqdn|lower == 'inventory' else hostname_fqdn }}
+    hostname_short: >-
+      {{ inventory_hostname_short if hostname_short|lower == 'inventory' else hostname_short }}
+    aliases: >-
+      {{ hostname_aliases | join(' ') }}
 
-- name: Execute distribution dependent setup.
-  include_tasks: "{{ item }}"
-  with_first_found:
-    - "{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version|lower }}.yml"
-    - "{{ ansible_distribution|lower }}.yml"
-    - "{{ ansible_os_family|lower }}.yml"
-    - generic.yml
+- name: Set the hostname.
+  ansible.builtin.hostname:
+    name: "{{ hostname_short }}"
+  become: true
+
+- name: Ensure hostname is in /etc/hosts
+  blockinfile:
+    dest: /etc/hosts
+    block: "{{ ip }} {{ hostname_long }} {{ hostname_short }} {{ hostname_aliases | join(' ') }}"
+  vars:
+  when: hostname_inject_hosts_file
+  become: true
