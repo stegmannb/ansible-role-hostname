@@ -2,7 +2,6 @@
 - name: Set the hostname.
   ansible.builtin.hostname:
     name: "{{ inventory_hostname_short }}"
-    use: systemd
   notify: Reboot the machine.
 
 - name: Remove the static IP from /etc/hosts.
