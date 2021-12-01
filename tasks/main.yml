@@ -1,6 +1,6 @@
 ---
-- name: Set facts.
-  set_fact:
+- name: Set role variables.
+  ansible.builtin.set_fact:
     ip: >-
       {{ ansible_default_ipv4.address if hostname_ip|lower == 'auto' else hostname_ip }}
     hostname_long: >-
@@ -10,13 +10,13 @@
     aliases: >-
       {{ hostname_aliases | join(' ') }}
 
-- name: Set the hostname.
+- name: Set the system hostname.
   ansible.builtin.hostname:
     name: "{{ hostname_short }}"
   become: true
 
-- name: Ensure hostname is in /etc/hosts
-  blockinfile:
+- name: Ensure hostname is in system hostfile.
+  ansible.builtin.blockinfile:
     dest: /etc/hosts
     block: "{{ ip }} {{ hostname_long }} {{ hostname_short }} {{ hostname_aliases | join(' ') }}"
   vars:

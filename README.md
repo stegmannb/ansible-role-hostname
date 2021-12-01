@@ -1,4 +1,4 @@
-# Ansible Template Role
+# Hostname
 
 [![License: MIT](https://img.shields.io/github/license/stegmannb/ansible-role-hostname)](https://github.com/stegmannb/ansible-role-hostname/blob/master/LICENSE)
 [![Continuous Integration](https://github.com/stegmannb/ansible-role-hostname/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/stegmannb/ansible-role-hostname/actions/workflows/continuous-integration.yml)
