@@ -16,9 +16,9 @@
   become: true
 
 - name: Ensure hostname is in system hostfile.
-  ansible.builtin.blockinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/hosts
-    block: "{{ ip }} {{ hostname_long }} {{ hostname_short }} {{ hostname_aliases | join(' ') }}"
-  vars:
+    search_string: "127.0.1.1"
+    line: "{{ ip }} {{ hostname_long }} {{ hostname_short }} {{ hostname_aliases | join(' ') }}"
   when: hostname_inject_hosts_file
   become: true
